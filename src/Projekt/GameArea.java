@@ -64,8 +64,8 @@ public class GameArea extends JPanel {
         setRows(this.getBounds().height / this.cellSize);
 
         this.setFallenBlocks(new Color[this.getCols()][this.getRows()]);
+
         fallenBlocks = new Color[getRows()][getCols()];
-        fallenBlocks[0][0] = Color.BLUE;
         //spawner();
     }
     public void spawner()
@@ -76,7 +76,7 @@ public class GameArea extends JPanel {
 
     public boolean force()
     {
-        if (!bTouchedGrass()) return false;
+        if (bHasTouchedGrass()) return false;
 
         this.block.down();
         repaint();
@@ -84,15 +84,100 @@ public class GameArea extends JPanel {
         return true;
     }
 
-    public boolean bTouchedGrass()
+    public boolean bHasTouchedGrass()
     {
         if (this.block.getGrassLevel() == rows)
         {
             addToFallenOnes();
-            return false;
-        }
-        else
             return true;
+        }
+
+        int[][] shape = block.getBlockShape();
+
+        int width = block.getWidth();
+        int height = block.getHeight();
+
+        for (int col = 0; col < width; col++)
+        {
+            for (int row = height - 1; row >= 0; row--)
+            {
+                if(shape[row][col] != 0)
+                {
+                    int x = col + block.getX();
+                    int y  = row + block.getY() + 1;
+                    if(y < 0) break;
+                    if(fallenBlocks[y][x] != null)
+                    {
+                        addToFallenOnes();
+                        return true;
+                    }
+                    break;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean bTouchedRight()
+    {
+        if(this.block.getLeftEdge() == getCols()-3) return false;
+
+        int[][] shape = block.getBlockShape();
+
+        int width = block.getWidth();
+        int height = block.getHeight();
+
+        for (int row = 0; row < height; row++)
+        {
+            for (int col = width - 1; col >= 0 ; col--)
+            {
+                if(shape[row][col] != 0)
+                {
+                    int x = col + block.getX()+1;
+                    int y  = row + block.getY();
+                    if(y < 0) break;
+                    if(fallenBlocks[y][x] != null)
+                    {
+                        addToFallenOnes();
+                        return true;
+                    }
+                    break;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    public boolean bTouchedLeft()
+    {
+        if(this.block.getRightEdge() == 3) return false;
+
+        int[][] shape = block.getBlockShape();
+
+        int width = block.getWidth();
+        int height = block.getHeight();
+
+        for (int row = 0; row < height; row++)
+        {
+            for (int col = 0; col < width ; col++)
+            {
+                if(shape[row][col] != 0)
+                {
+                    int x = col + block.getX()-1;
+                    int y  = row + block.getY();
+                    if(y < 0) break;
+                    if(fallenBlocks[y][x] != null)
+                    {
+                        addToFallenOnes();
+                        return true;
+                    }
+                    break;
+                }
+            }
+        }
+        return true;
     }
 
     public void drawBlock(Graphics g,  Brick block)
@@ -163,12 +248,16 @@ public class GameArea extends JPanel {
 
     public void moveRight()
     {
+        if(!bTouchedRight()) return;
+
         block.right();
         repaint();
     }
 
     public void moveLeft()
     {
+        if(!bTouchedLeft()) return;
+
         block.left();
         repaint();
     }
@@ -181,9 +270,12 @@ public class GameArea extends JPanel {
 
     public boolean moveDown()
     {
-        if(!bTouchedGrass())
+        //if (!b)
+
+        if(bHasTouchedGrass())
         {
             addToFallenOnes();
+            repaint();
             return false;
         }
 

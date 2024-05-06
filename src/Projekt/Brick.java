@@ -113,6 +113,17 @@ public class Brick {
         return this.getY() + this.getHeight();
     }
 
+    public int getLeftEdge()
+    {
+        return x;
+    }
+
+    public int getRightEdge()
+    {
+        return x + getWidth();
+    }
+
+
     public Brick(int[][] blockShape, Color color, int x, int y) {
         this.blockShape = blockShape;
         this.color = color;

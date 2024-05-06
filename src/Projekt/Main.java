@@ -36,7 +36,6 @@ public class Main extends JFrame{
         am.put("right", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Right key pressed");
                 gameArea.moveRight();
             }
         });
@@ -44,7 +43,6 @@ public class Main extends JFrame{
         am.put("left", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Left key pressed");
                 gameArea.moveLeft();
             }
         });
@@ -52,7 +50,6 @@ public class Main extends JFrame{
         am.put("up", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Up key pressed");
                 gameArea.rotate();
             }
         });
@@ -60,7 +57,6 @@ public class Main extends JFrame{
         am.put("down", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Down key pressed");
                 gameArea.moveDown();
             }
         });

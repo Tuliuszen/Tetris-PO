@@ -21,7 +21,7 @@ public class GameThread extends Thread
             while(getGameArea().force())
             {
                 try {
-                    Thread.sleep(1000); //speed
+                    Thread.sleep(200); //speed
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
