@@ -50,10 +50,15 @@ public class GameArea extends JPanel {
     {
         super.paintComponent(g);
 
-        for (int y = 0; y < this.getRows(); y++) {
+        int[][] b1Array = {{1, 0}, {1, 0}, {1, 1}};
+        Brick b1 = new Brick(b1Array);
+
+        b1.drawBlock(g, this, b1);
+
+        /*for (int y = 0; y < this.getRows(); y++) {
             for (int x = 0; x < this.getCols(); x++) {
                 g.drawRect(x * this.getCellSize(), y * this.getCellSize(), this.getCellSize(), this.getCellSize());
             }
-        }
+        }*/
     }
 }
