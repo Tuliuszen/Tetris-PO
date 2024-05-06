@@ -160,6 +160,38 @@ public class GameArea extends JPanel {
         repaint();
     }
 
+
+    public void moveRight()
+    {
+        block.right();
+        repaint();
+    }
+
+    public void moveLeft()
+    {
+        block.left();
+        repaint();
+    }
+
+    public void rotate()
+    {
+        block.rotate();
+        repaint();
+    }
+
+    public boolean moveDown()
+    {
+        if(!bTouchedGrass())
+        {
+            addToFallenOnes();
+            return false;
+        }
+
+        block.down();
+        repaint();
+        return true;
+    }
+
     @Override
     protected void paintComponent(Graphics g)
     {
