@@ -7,8 +7,18 @@ public class GameArea extends JPanel {
 
     private int rows, cols;
     private int cellSize;
-
     private Brick block;
+
+    private Color[][] fallenBlocks; //Basically its a background for fallen blocks that are seen in game area
+
+
+    public Color[][] getFallenBlocks() {
+        return fallenBlocks;
+    }
+
+    public void setFallenBlocks(Color[][] fallenBlocks) {
+        this.fallenBlocks = fallenBlocks;
+    }
 
     public Brick getBlock() {
         return block;
@@ -53,7 +63,10 @@ public class GameArea extends JPanel {
         setCellSize(this.getBounds().width / this.cols);
         setRows(this.getBounds().height / this.cellSize);
 
-        spawner();
+        this.setFallenBlocks(new Color[this.getCols()][this.getRows()]);
+        fallenBlocks = new Color[getRows()][getCols()];
+        fallenBlocks[0][0] = Color.BLUE;
+        //spawner();
     }
     public void spawner()
     {
@@ -61,18 +74,23 @@ public class GameArea extends JPanel {
         block.spwanBlock(cols);
     }
 
-    public void force()
+    public boolean force()
     {
-        if (!bTouchedGrass()) return;
+        if (!bTouchedGrass()) return false;
 
         this.block.down();
         repaint();
+
+        return true;
     }
 
     public boolean bTouchedGrass()
     {
-        if (block.getGrassLevel() == rows)
+        if (this.block.getGrassLevel() == rows)
+        {
+            addToFallenOnes();
             return false;
+        }
         else
             return true;
     }
@@ -88,14 +106,58 @@ public class GameArea extends JPanel {
                     x = getCellSize() * (block.getX() + col);
                     y = getCellSize() * (block.getY() + row);
 
-                    g.setColor(block.getColor());
-                    g.fillRect(x,  y, this.getCellSize(), this.getCellSize());
-                    g.setColor(Color.black);
-                    g.drawRect(x, y, this.getCellSize(), this.getCellSize()); // draw area
-                    repaint();
+                    drawSquare(g, block.getColor(), x, y);
                 }
             }
         }
+    }
+
+    public void drawBg(Graphics g)
+    {
+        Color color;
+        for(int row = 0; row < getRows(); row++)
+        {
+            for(int col = 0; col < getCols(); col++)
+            {
+                color = getFallenBlocks()[row][col];
+
+                if (color != null)
+                {
+                    int x = col * getCellSize();
+                    int y = row * getCellSize();
+
+                    drawSquare(g, color, x, y);
+                }
+            }
+        }
+    }
+
+    public void addToFallenOnes()
+    {
+        int[][] shape = this.getBlock().getBlockShape();
+        Color color = this.getBlock().getColor();
+
+        for(int row = 0; row < this.getBlock().getHeight(); row++)
+        {
+            for(int col = 0; col < this.getBlock().getWidth(); col++)
+            {
+                if(shape[row][col] == 1)
+                {
+                    this.fallenBlocks[row + this.getBlock().getY()][col + this.getBlock().getX()] = color;
+                }
+            }
+        }
+
+    }
+
+
+    public void drawSquare(Graphics g, Color color, int x, int y)
+    {
+        g.setColor(color);
+        g.fillRect(x,y,this.getCellSize(), this.getCellSize());
+        g.setColor(Color.black);
+        g.drawRect(x, y, this.getCellSize(), this.getCellSize());
+        repaint();
     }
 
     @Override
@@ -103,7 +165,7 @@ public class GameArea extends JPanel {
     {
         super.paintComponent(g);
 
-
+        drawBg(g);
         drawBlock(g, this.getBlock());
 
         /*for (int y = 0; y < this.getRows(); y++) {

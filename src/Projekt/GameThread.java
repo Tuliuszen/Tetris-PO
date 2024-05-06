@@ -15,15 +15,16 @@ public class GameThread extends Thread
     @Override
     public void run()
     {
-        while(true)
+        while(true) //GAME LOOP
         {
-
-
-            try {
-                getGameArea().force();
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            gameArea.spawner();
+            while(getGameArea().force())
+            {
+                try {
+                    Thread.sleep(1000); //speed
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
