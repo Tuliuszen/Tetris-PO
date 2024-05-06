@@ -66,6 +66,7 @@ public class GameArea extends JPanel {
         this.setFallenBlocks(new Color[this.getCols()][this.getRows()]);
 
         fallenBlocks = new Color[getRows()][getCols()];
+        //fallenBlocks[0][9] = Color.GREEN;
         //spawner();
     }
     public void spawner()
@@ -76,9 +77,14 @@ public class GameArea extends JPanel {
 
     public boolean force()
     {
-        if (bHasTouchedGrass()) return false;
+        if (bHasTouchedGrass())
+        {
+            addToFallenOnes();
+            clearLines();
+            return false;
+        }
 
-        this.block.down();
+        moveDown();
         repaint();
 
         return true;
@@ -96,6 +102,7 @@ public class GameArea extends JPanel {
 
         int width = block.getWidth();
         int height = block.getHeight();
+
 
         for (int col = 0; col < width; col++)
         {
@@ -200,15 +207,17 @@ public class GameArea extends JPanel {
     public void drawBg(Graphics g)
     {
         Color color;
-        for(int row = 0; row < getRows(); row++)
-        {
-            for(int col = 0; col < getCols(); col++)
-            {
-                color = getFallenBlocks()[row][col];
 
+        for(int row = 0; row < this.getRows(); row++)
+        {
+            for(int c = 0; c < this.getCols(); c++)
+            {
+                System.out.println(this.getCols());
+                System.out.println(c);
+                color = getFallenBlocks()[row][c];
                 if (color != null)
                 {
-                    int x = col * getCellSize();
+                    int x = c * getCellSize();
                     int y = row * getCellSize();
 
                     drawSquare(g, color, x, y);
@@ -283,6 +292,36 @@ public class GameArea extends JPanel {
         repaint();
         return true;
     }
+
+    public void clearLines()
+    {
+        boolean lineFilled;
+
+        for(int row = rows - 1; row >= 0; row--)
+        {
+            lineFilled = true;
+
+            for(int col = 0; col < cols; col++) // Change cols to col
+            {
+                if(fallenBlocks[row][col] == null)
+                {
+                    lineFilled = false;
+                    break;
+                }
+            }
+
+            if(lineFilled)
+            {
+                for (int i = 0; i < cols; i++)
+                {
+                    fallenBlocks[row][i] = null;
+                }
+
+                repaint();
+            }
+        }
+    }
+
 
     @Override
     protected void paintComponent(Graphics g)

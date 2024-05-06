@@ -104,8 +104,8 @@ public class Brick {
         this.rotation = 0;
         blockShape = blockShapes[rotation];
 
-        x = (width - this.getWidth()) / 2;
-        y = -this.getHeight();
+        this.x = (width - this.getWidth()) / 2;
+        this.y = -this.getHeight();
     }
 
     public int getGrassLevel()
