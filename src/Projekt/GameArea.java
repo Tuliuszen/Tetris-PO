@@ -75,6 +75,11 @@ public class GameArea extends JPanel {
         block.spwanBlock(cols);
     }
 
+    public boolean bIsOutOfBounds()
+    {
+        return block.getY() < 0;
+    }
+
     public boolean force()
     {
         if (bHasTouchedGrass())
@@ -312,15 +317,36 @@ public class GameArea extends JPanel {
 
             if(lineFilled)
             {
-                for (int i = 0; i < cols; i++)
-                {
-                    fallenBlocks[row][i] = null;
-                    Main.addScore(100);
-                    Main.addLevel(1);
-                }
+                clearLine(row);
+                shiftDown(row);
+                clearLine(0);
+
+                row++;
 
                 repaint();
             }
+        }
+    }
+
+    private void shiftDown(int r)
+    {
+        for(int row = r; row > 0; row--)
+        {
+            for(int col = 0; col < cols; col++)
+            {
+                fallenBlocks[row][col] = fallenBlocks[row-1][col];
+            }
+        }
+
+    }
+
+    private void clearLine(int row)
+    {
+        for (int i = 0; i < cols; i++)
+        {
+            fallenBlocks[row][i] = null;
+            Main.addScore(100);
+            Main.addLevel(1);
         }
     }
 
