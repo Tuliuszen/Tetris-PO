@@ -8,6 +8,16 @@ public class GameArea extends JPanel {
     private int rows, cols;
     private int cellSize;
 
+    private Brick block;
+
+    public Brick getBlock() {
+        return block;
+    }
+
+    public void setBlock(Brick block) {
+        this.block = block;
+    }
+
     public int getRows() {
         return rows;
     }
@@ -43,6 +53,49 @@ public class GameArea extends JPanel {
         setCellSize(this.getBounds().width / this.cols);
         setRows(this.getBounds().height / this.cellSize);
 
+        spawner();
+    }
+    public void spawner()
+    {
+        this.block = new Brick(new int[][]{{1, 0}, {1, 0}, {1, 1}}, Color.red, 0, 0);
+        block.spwanBlock(cols);
+    }
+
+    public void force()
+    {
+        if (!bTouchedGrass()) return;
+
+        this.block.down();
+        repaint();
+    }
+
+    public boolean bTouchedGrass()
+    {
+        if (block.getGrassLevel() == rows)
+            return false;
+        else
+            return true;
+    }
+
+    public void drawBlock(Graphics g,  Brick block)
+    {
+        int x, y;
+
+        for (int row = 0; row < block.getBlockShape().length; row++) {
+            for (int col = 0; col < block.getBlockShape()[0].length; col++) {
+                if(block.getBlockShape()[row][col] == 1)
+                {
+                    x = getCellSize() * (block.getX() + col);
+                    y = getCellSize() * (block.getY() + row);
+
+                    g.setColor(block.getColor());
+                    g.fillRect(x,  y, this.getCellSize(), this.getCellSize());
+                    g.setColor(Color.black);
+                    g.drawRect(x, y, this.getCellSize(), this.getCellSize()); // draw area
+                    repaint();
+                }
+            }
+        }
     }
 
     @Override
@@ -50,10 +103,8 @@ public class GameArea extends JPanel {
     {
         super.paintComponent(g);
 
-        int[][] b1Array = {{1, 0}, {1, 0}, {1, 1}};
-        Brick b1 = new Brick(b1Array);
 
-        b1.drawBlock(g, this, b1);
+        drawBlock(g, this.getBlock());
 
         /*for (int y = 0; y < this.getRows(); y++) {
             for (int x = 0; x < this.getCols(); x++) {

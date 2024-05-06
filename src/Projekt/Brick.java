@@ -4,32 +4,83 @@ import java.awt.*;
 
 public class Brick {
 
-    private int[][] block;
+    private int[][] blockShape;
+    private Color color;
 
-    public int[][] getBlock() {
-        return block;
+    private int x, y;
+
+    public int getX() {
+        return x;
     }
 
-    public void setBlock(int[][] block) {
-        this.block = block;
+    public void setX(int x) {
+        this.x = x;
     }
 
-    public Brick(int[][] block) {
-        this.block = block;
+    public int getY() {
+        return y;
     }
 
-    public void drawBlock(Graphics g, GameArea area, Brick block)
+    public void setY(int y) {
+        this.y = y;
+    }
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public int[][] getBlockShape() {
+        return blockShape;
+    }
+
+    public int getHeight()
     {
-        for (int row = 0; row < block.getBlock().length; row++) {
-            for (int col = 0; col < block.getBlock()[0].length; col++) {
-                if(block.getBlock()[row][col] == 1)
-                {
-                    g.setColor(Color.red);
-                    g.fillRect(col * area.getCellSize(), row * area.getCellSize(), area.getCellSize(), area.getCellSize());
-                    g.setColor(Color.black);
-                    g.drawRect(col * area.getCellSize(), row * area.getCellSize(), area.getCellSize(), area.getCellSize()); // draw area
-                }
-            }
-        }
+        return this.blockShape.length;
+    }
+
+    public int getWidth()
+    {
+        return this.blockShape[0].length;
+    }
+
+    public void setBlockShape(int[][] blockShape) {
+        this.blockShape = blockShape;
+    }
+
+
+    public void down()
+    {
+        this.y++;
+    }
+
+    public void right()
+    {
+        this.x++;
+    }
+
+    public void left()
+    {
+        this.x--;
+    }
+
+    public void spwanBlock(int width)
+    {
+        x = (width - this.getWidth()) / 2;
+        y = -this.getHeight();
+    }
+
+    public int getGrassLevel()
+    {
+        return this.getY() + this.getHeight();
+    }
+
+    public Brick(int[][] blockShape, Color color, int x, int y) {
+        this.blockShape = blockShape;
+        this.color = color;
+        this.x = x;
+        this.y = y;
     }
 }
