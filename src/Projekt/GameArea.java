@@ -5,8 +5,7 @@ import java.awt.*;
 
 public class GameArea extends JPanel {
 
-    private int rows;
-    private int cols;
+    private int rows, cols;
     private int cellSize;
 
     public int getRows() {
@@ -34,10 +33,16 @@ public class GameArea extends JPanel {
     }
 
 
-    public GameArea()
+    public GameArea(int columns)
     {
-        this.setPreferredSize(new Dimension(300, 600));
-        this.setBackground(Color.BLACK);
+        //this.setPreferredSize(new Dimension(300, 550));
+        this.setBounds(0, 0, 300, 550);
+        //this.setBackground(Color.BLACK);
+
+        setCols(columns);
+        setCellSize(this.getBounds().width / this.cols);
+        setRows(this.getBounds().height / this.cellSize);
+
     }
 
     @Override
@@ -45,6 +50,10 @@ public class GameArea extends JPanel {
     {
         super.paintComponent(g);
 
-        //g.fillRect(0,0,50,50);
+        for (int y = 0; y < this.getRows(); y++) {
+            for (int x = 0; x < this.getCols(); x++) {
+                g.drawRect(x * this.getCellSize(), y * this.getCellSize(), this.getCellSize(), this.getCellSize());
+            }
+        }
     }
 }

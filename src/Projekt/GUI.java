@@ -115,7 +115,7 @@ public class GUI extends JFrame{
     {
         frame = new JFrame("Three Column Layout Example");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
+        frame.setSize(1000, 600);
 
         // Create the main panel with a GridLayout for 3 columns
         mainPanel = new JPanel(new GridLayout(1, 3, 10, 10));
@@ -146,9 +146,9 @@ public class GUI extends JFrame{
         mainPanel.add(secondColumnPanel);
 
         // ----- GAME AREA -----
-        gamePanel = new GameArea();
-        gamePanel.setPreferredSize(new Dimension(300, 600));  // Set preferred size for game area
-        //System.out.println(gamePanel.getWidth());
+        gamePanel = new GameArea(10);
+        gamePanel.setPreferredSize(new Dimension(300, 550));  // Set preferred size for game area
+        //System.out.println(this.getSize());
         //System.out.println(gamePanel.getX());
         secondColumnPanel.add(gamePanel);
 
