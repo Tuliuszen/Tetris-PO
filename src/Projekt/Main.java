@@ -9,6 +9,36 @@ public class Main extends JFrame{
     GUI gui;
     GameArea gameArea;
 
+
+    static int score, level;
+
+    public static int getLevel() {
+        return level;
+    }
+
+    public static void setLevel(int level) {
+        Main.level = level;
+    }
+
+    public static void addLevel(int added)
+    {
+        Main.level += added;
+    }
+
+    public int getScore() {
+        return Main.score;
+    }
+
+    public static void setScore(int score) {
+        Main.score = score;
+    }
+
+    public static void addScore(int added)
+    {
+        Main.score += added;
+    }
+
+
     public static void main(String[] args)
     {
          new Main();

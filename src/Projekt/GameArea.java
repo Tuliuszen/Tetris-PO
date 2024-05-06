@@ -315,6 +315,8 @@ public class GameArea extends JPanel {
                 for (int i = 0; i < cols; i++)
                 {
                     fallenBlocks[row][i] = null;
+                    Main.addScore(100);
+                    Main.addLevel(1);
                 }
 
                 repaint();

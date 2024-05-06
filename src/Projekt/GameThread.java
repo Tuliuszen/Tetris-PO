@@ -4,6 +4,8 @@ public class GameThread extends Thread
 {
     private GameArea gameArea;
 
+    GUI gui;
+
     public GameArea getGameArea() {
         return gameArea;
     }
@@ -22,6 +24,9 @@ public class GameThread extends Thread
             {
                 try {
                     Thread.sleep(200); //speed
+
+                    //gui.setPointsTextField(Main.score.toString);
+                    //Thread.sleep(1000 - (50 * Main.getLavel()); //speed
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
