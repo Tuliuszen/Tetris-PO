@@ -23,11 +23,11 @@ public class GameThread extends Thread
             while(getGameArea().force())
             {
                 try {
-                    Thread.sleep(200); //speed
+                    //Thread.sleep(200); //speed
                     //
 
                     //gui.setPointsTextField(Main.score.toString);
-                    //Thread.sleep(1000 - (50 * Main.getLavel()); //speed
+                    Thread.sleep(800 - (50 * Main.getLevel())); //speed
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

@@ -46,6 +46,11 @@ public class Main extends JFrame{
         Main.score += added;
     }
 
+    public static void addLines(int added)
+    {
+        Main.lines += added;
+    }
+
 
     public static void main(String[] args)
     {
@@ -57,7 +62,10 @@ public class Main extends JFrame{
         gui = new GUI();
         gameArea = gui.getGamePanel();
 
-        addScore(0);
+        Main.score = 0;
+        Main.level = 1;
+        Main.lines = 0;
+
         //System.out.print(Main.score);
 
         Controls();
