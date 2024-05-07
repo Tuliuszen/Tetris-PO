@@ -7,10 +7,14 @@ import java.awt.event.KeyEvent;
 public class Main extends JFrame{
 
     GUI gui;
-    GameArea gameArea;
+    static GameArea gameArea;
 
+    static GameThread thread;
+
+    static AudioManager audio;
 
     static int score, level, lines;
+    static boolean bMusic, bGameOn;
 
     public static int getLines() {
         return lines;
@@ -61,6 +65,18 @@ public class Main extends JFrame{
     {
         gui = new GUI();
         gameArea = gui.getGamePanel();
+
+        gui.pointsTextField.setText(String.valueOf("Score: " + Main.getScore()));
+        gui.levelTextField.setText(String.valueOf("Level: " +Main.getLevel()));
+        gui.lineTextField.setText(String.valueOf("Lines: " +Main.getLines()));
+
+        //audio = new AudioManager();
+
+        //audio.finder();
+
+        //audio.playBgMusic();
+        bMusic = true;
+        bGameOn = true;
 
         Main.score = 0;
         Main.level = 1;
@@ -115,6 +131,7 @@ public class Main extends JFrame{
 
     public void GameStart()
     {
-        new GameThread(gameArea).start();
+        thread = new GameThread(gameArea);
+        thread.start();
     }
 }

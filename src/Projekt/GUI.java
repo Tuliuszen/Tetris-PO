@@ -2,6 +2,8 @@ package Projekt;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 
 public class GUI extends JFrame{
@@ -176,8 +178,41 @@ public class GUI extends JFrame{
         musicButton = new JButton("Music On/Off");
         thirdColumnPanel.add(musicButton);
 
+        musicButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Main.bMusic)
+                    Main.audio.stopBgMusic();
+                else
+                    Main.audio.playBgMusic();
+
+
+                System.out.println("Music button clicked!");
+            }
+        });
+
         startStopButton = new JButton("Start/Stop");
         thirdColumnPanel.add(startStopButton);
+
+        startStopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Main.bGameOn)
+                {
+                    Main.bGameOn = false;
+                    Main.thread.stop();
+                }
+                else
+                {
+                    Main.bGameOn = true;
+                    Main.thread = new GameThread(Main.gameArea); // Create a new thread
+                    Main.thread.start();
+                }
+
+
+                System.out.println(Main.bGameOn);
+            }
+        });
 
         // Display the frame
         frame.setVisible(true);

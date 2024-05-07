@@ -17,8 +17,9 @@ public class GameThread extends Thread
     @Override
     public void run()
     {
-        while(true) //GAME LOOP
+        while(Main.bGameOn) //GAME LOOP
         {
+            System.out.println("test");
             gameArea.spawner();
             while(getGameArea().force())
             {

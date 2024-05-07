@@ -344,9 +344,9 @@ public class GameArea extends JPanel {
         for (int i = 0; i < cols; i++)
         {
             fallenBlocks[row][i] = null;
-            GUI.pointsTextField.setText(String.valueOf(Main.getScore()));
-            GUI.levelTextField.setText(String.valueOf(Main.getLevel()));
-            GUI.lineTextField.setText(String.valueOf(Main.getLines()));
+            GUI.pointsTextField.setText(String.valueOf("Score: " + Main.getScore()));
+            GUI.levelTextField.setText(String.valueOf("Level: " +Main.getLevel()));
+            GUI.lineTextField.setText(String.valueOf("Lines: " +Main.getLines()));
         }
         Main.addScore(100);
         Main.addLines(1);
