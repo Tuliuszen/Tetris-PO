@@ -10,7 +10,15 @@ public class Main extends JFrame{
     GameArea gameArea;
 
 
-    static int score, level;
+    static int score, level, lines;
+
+    public static int getLines() {
+        return lines;
+    }
+
+    public static void setLines(int lines) {
+        Main.lines = lines;
+    }
 
     public static int getLevel() {
         return level;
@@ -25,7 +33,7 @@ public class Main extends JFrame{
         Main.level += added;
     }
 
-    public int getScore() {
+    public static int getScore() {
         return Main.score;
     }
 
@@ -48,6 +56,9 @@ public class Main extends JFrame{
     {
         gui = new GUI();
         gameArea = gui.getGamePanel();
+
+        addScore(0);
+        //System.out.print(Main.score);
 
         Controls();
 

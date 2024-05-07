@@ -217,8 +217,7 @@ public class GameArea extends JPanel {
         {
             for(int c = 0; c < this.getCols(); c++)
             {
-                System.out.println(this.getCols());
-                System.out.println(c);
+
                 color = getFallenBlocks()[row][c];
                 if (color != null)
                 {
@@ -347,6 +346,7 @@ public class GameArea extends JPanel {
             fallenBlocks[row][i] = null;
             Main.addScore(100);
             Main.addLevel(1);
+            GUI.pointsTextField.setText(String.valueOf(Main.getScore()));
         }
     }
 

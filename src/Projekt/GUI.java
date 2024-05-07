@@ -11,7 +11,7 @@ public class GUI extends JFrame{
 
     private GameArea gamePanel;
     private JTable table;
-    private JTextField pointsTextField, lineTextField, levelTextField;
+    static JTextField pointsTextField, lineTextField, levelTextField;
     private JButton musicButton;
     private JButton startStopButton;
     private ImageIcon logoIcon;
@@ -45,8 +45,8 @@ public class GUI extends JFrame{
         this.table = table;
     }
 
-    public void setPointsTextField(JTextField pointsTextField) {
-        this.pointsTextField = pointsTextField;
+    public static void setPointsTextField(JTextField pointsTextField) {
+        pointsTextField = pointsTextField;
     }
 
     public void setLineTextField(JTextField lineTextField) {
@@ -164,6 +164,7 @@ public class GUI extends JFrame{
 
         // Text Fields
         pointsTextField = new JTextField();
+        pointsTextField.setText("0");
         thirdColumnPanel.add(pointsTextField);
 
         lineTextField = new JTextField();

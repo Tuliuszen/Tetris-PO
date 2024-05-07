@@ -24,6 +24,7 @@ public class GameThread extends Thread
             {
                 try {
                     Thread.sleep(200); //speed
+                    //
 
                     //gui.setPointsTextField(Main.score.toString);
                     //Thread.sleep(1000 - (50 * Main.getLavel()); //speed
