@@ -8,7 +8,9 @@ public class AudioManager {
 
     //private String trackPath = "src/Projekt/music.mp3";
     //private String trackPath = "Projekt/music.mp3";
-    private String trackPath = "C:\\Users\\Maciek\\IdeaProjects\\Tetris\\out\\production\\Tetris\\Projekt\\music.mp3";
+    //private String trackPath = "C:\\Users\\Maciek\\IdeaProjects\\Tetris\\out\\production\\Tetris\\Projekt\\music.mp3";
+
+    private String trackPath = "music.wav";
 
     //String trackPath = "src/Projekt/music.mp3";
     private Clip track;
