@@ -133,7 +133,7 @@ public class GameArea extends JPanel {
 
     public boolean bTouchedRight()
     {
-        if(this.block.getLeftEdge() == getCols()-3) return false;
+        if(this.block.getLeftEdge() == getCols()-2) return false;
 
         int[][] shape = block.getBlockShape();
 
@@ -151,8 +151,8 @@ public class GameArea extends JPanel {
                     if(y < 0) break;
                     if(fallenBlocks[y][x] != null)
                     {
-                        addToFallenOnes();
-                        return true;
+                        //addToFallenOnes();
+                        return false;
                     }
                     break;
                 }
@@ -164,7 +164,7 @@ public class GameArea extends JPanel {
 
     public boolean bTouchedLeft()
     {
-        if(this.block.getRightEdge() == 3) return false;
+        if(this.block.getRightEdge() == 2) return false;
 
         int[][] shape = block.getBlockShape();
 
@@ -182,8 +182,8 @@ public class GameArea extends JPanel {
                     if(y < 0) break;
                     if(fallenBlocks[y][x] != null)
                     {
-                        addToFallenOnes();
-                        return true;
+                        //addToFallenOnes();
+                        return false;
                     }
                     break;
                 }

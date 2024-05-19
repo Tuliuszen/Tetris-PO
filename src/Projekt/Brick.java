@@ -102,7 +102,7 @@ public class Brick {
     public void spwanBlock(int width)
     {
         this.rotation = 0;
-        blockShape = blockShapes[rotation];
+        blockShape = blockShapes[this.rotation];
 
         this.x = (width - this.getWidth()) / 2;
         this.y = -this.getHeight();
