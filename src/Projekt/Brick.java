@@ -1,8 +1,11 @@
 package Projekt;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Brick {
+    public Brick() {
+    }
 
     private int[][] blockShape;
     private Color color;
@@ -11,6 +14,8 @@ public class Brick {
     private int[][][] blockShapes;
 
     private int rotation;
+
+    private Color[] availableColors = {Color.red, Color.BLUE, Color.green, Color.YELLOW, Color.cyan, Color.magenta, Color.ORANGE};
 
     private void setupShapes()
     {
@@ -101,11 +106,16 @@ public class Brick {
 
     public void spwanBlock(int width)
     {
+        Random random = new Random();
+
         this.rotation = 0;
         blockShape = blockShapes[this.rotation];
 
-        this.x = (width - this.getWidth()) / 2;
+        //this.x = (width - this.getWidth()) / 2;
+        this.x = random.nextInt((width - this.getWidth())/2);
         this.y = -this.getHeight();
+
+        this.color = availableColors[random.nextInt(availableColors.length)];
     }
 
     public int getGrassLevel()
@@ -124,9 +134,9 @@ public class Brick {
     }
 
 
-    public Brick(int[][] blockShape, Color color, int x, int y) {
+    public Brick(int[][] blockShape,  int x, int y) {
         this.blockShape = blockShape;
-        this.color = color;
+
         this.x = x;
         this.y = y;
 

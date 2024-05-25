@@ -1,7 +1,10 @@
 package Projekt;
 
+import Blocks.*;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class GameArea extends JPanel {
 
@@ -10,6 +13,8 @@ public class GameArea extends JPanel {
     private Brick block;
 
     private Color[][] fallenBlocks; //Basically its a background for fallen blocks that are seen in game area
+
+    private Brick[] bricks;
 
 
     public Color[][] getFallenBlocks() {
@@ -68,10 +73,14 @@ public class GameArea extends JPanel {
         fallenBlocks = new Color[getRows()][getCols()];
         //fallenBlocks[0][9] = Color.GREEN;
         //spawner();
+
+        bricks = new Brick[]{new LBlock(), new JBlock(), new ZBlock(), new SBlock(), new TBlock(), new OBlock(), new IBlock()};
     }
     public void spawner()
     {
-        this.block = new Brick(new int[][]{{1, 0}, {1, 0}, {1, 1}}, Color.red, 0, 0);
+        Random random = new Random();
+
+        this.block = bricks[random.nextInt(bricks.length)];
         block.spwanBlock(cols);
     }
 
@@ -133,6 +142,8 @@ public class GameArea extends JPanel {
 
     public boolean bTouchedRight()
     {
+        //there is and error but it doesnt affect gameplay
+
         if(this.block.getLeftEdge() == getCols()-2) return false;
 
         int[][] shape = block.getBlockShape();
@@ -278,6 +289,10 @@ public class GameArea extends JPanel {
     public void rotate()
     {
         block.rotate();
+
+        if (block.getLeftEdge() < 0) block.setX(0);
+        if (block.getRightEdge() >= cols) block.setX(cols - block.getWidth());
+        if (block.getGrassLevel() >= rows) block.setY(rows - block.getHeight());
         repaint();
     }
 
