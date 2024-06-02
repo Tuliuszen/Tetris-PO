@@ -5,19 +5,27 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.ResourceBundle;
 
-public class GUI extends JFrame{
+public class GUI extends JFrame {
 
     private JFrame frame;
     private JPanel mainPanel, firstColumnPanel, secondColumnPanel, thirdColumnPanel, nextBrickPanel;
-
     private GameArea gamePanel;
     private JTable table;
     static JTextField pointsTextField, lineTextField, levelTextField;
     private JButton musicButton;
     private JButton startStopButton;
     private ImageIcon logoIcon;
+    private ResourceBundle bundle;
 
+    public ResourceBundle getBundle() {
+        return bundle;
+    }
+
+    public void setBundle(ResourceBundle bundle) {
+        this.bundle = bundle;
+    }
 
     public void setFrame(JFrame frame) {
         this.frame = frame;
@@ -58,6 +66,7 @@ public class GUI extends JFrame{
     public void setLevelTextField(JTextField levelTextField) {
         this.levelTextField = levelTextField;
     }
+
     public JFrame getFrame() {
         return frame;
     }
@@ -113,8 +122,11 @@ public class GUI extends JFrame{
     public ImageIcon getLogoIcon() {
         return logoIcon;
     }
-    public GUI()
-    {
+
+    public GUI() {
+        // Initialize the bundle with the default language
+        bundle = ResourceBundle.getBundle("Projekt.LangEng");
+
         frame = new JFrame("Three Column Layout Example");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 600);
@@ -123,12 +135,42 @@ public class GUI extends JFrame{
         mainPanel = new JPanel(new GridLayout(1, 3, 10, 10));
         frame.add(mainPanel);
 
+        // Create a menu bar
+        JMenuBar menuBar = new JMenuBar();
+
+        // Create the Settings menu
+        JMenu settingsMenu = new JMenu("Langs");
+        menuBar.add(settingsMenu);
+
+        // Create the language menu items
+        JMenuItem polMenuItem = new JMenuItem("POL");
+        polMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setLanguage("Projekt.LangPol");
+            }
+        });
+
+        JMenuItem engMenuItem = new JMenuItem("ENG");
+        engMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setLanguage("Projekt.LangEng");
+            }
+        });
+
+        settingsMenu.add(polMenuItem);
+        settingsMenu.add(engMenuItem);
+
+        // Set the menu bar to the frame
+        frame.setJMenuBar(menuBar);
+
         // First Column
         firstColumnPanel = new JPanel(new GridLayout(2, 1, 0, 10));
         mainPanel.add(firstColumnPanel);
 
         // Logo (Row 1)
-        logoIcon = createImageIcon("logo.png");
+        logoIcon = createImageIcon("logo.png", 250, 250);
         if (logoIcon != null) {
             JLabel logoLabel = new JLabel(logoIcon);
             firstColumnPanel.add(logoLabel);
@@ -150,8 +192,6 @@ public class GUI extends JFrame{
         // ----- GAME AREA -----
         gamePanel = new GameArea(10);
         gamePanel.setPreferredSize(new Dimension(300, 550));  // Set preferred size for game area
-        //System.out.println(this.getSize());
-        //System.out.println(gamePanel.getX());
         secondColumnPanel.add(gamePanel);
 
         // ----- GAME AREA -----
@@ -175,7 +215,7 @@ public class GUI extends JFrame{
         levelTextField = new JTextField();
         thirdColumnPanel.add(levelTextField);
 
-        musicButton = new JButton("Music On/Off");
+        musicButton = new JButton(bundle.getString("musicButton"));
         thirdColumnPanel.add(musicButton);
 
         musicButton.addActionListener(new ActionListener() {
@@ -186,29 +226,24 @@ public class GUI extends JFrame{
                 else
                     Main.audio.playBgMusic();
 
-
                 System.out.println("Music button clicked!");
             }
         });
 
-        startStopButton = new JButton("Start/Stop");
+        startStopButton = new JButton(bundle.getString("startStopButton"));
         thirdColumnPanel.add(startStopButton);
 
         startStopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Main.bGameOn)
-                {
+                if (Main.bGameOn) {
                     Main.bGameOn = false;
                     Main.thread.stop();
-                }
-                else
-                {
+                } else {
                     Main.bGameOn = true;
                     Main.thread = new GameThread(Main.gameArea); // Create a new thread
                     Main.thread.start();
                 }
-
 
                 System.out.println(Main.bGameOn);
             }
@@ -218,15 +253,35 @@ public class GUI extends JFrame{
         frame.setVisible(true);
     }
 
-    protected ImageIcon createImageIcon(String path) {
+    protected ImageIcon createImageIcon(String path, int width, int height) {
         URL imgURL = getClass().getResource(path);
         if (imgURL != null) {
             ImageIcon icon = new ImageIcon(imgURL);
-            Image image = icon.getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+            Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);  // Explicitly set logo size
             return new ImageIcon(image);
         } else {
             System.err.println("Couldn't find file: " + path);
             return null;
         }
+    }
+
+    private void setLanguage(String languageBundle) {
+        bundle = ResourceBundle.getBundle(languageBundle);
+        updateTexts();
+    }
+
+    private void updateTexts() {
+        musicButton.setText(bundle.getString("musicButton"));
+        startStopButton.setText(bundle.getString("startStopButton"));
+        // Update other texts as needed
+        frame.repaint();
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new GUI();
+            }
+        });
     }
 }
