@@ -191,7 +191,7 @@ public class GUI extends JFrame {
 
         // ----- GAME AREA -----
         gamePanel = new GameArea(10);
-        gamePanel.setPreferredSize(new Dimension(300, 550));  // Set preferred size for game area
+        gamePanel.setPreferredSize(new Dimension(300, 550));
         secondColumnPanel.add(gamePanel);
 
         // ----- GAME AREA -----
@@ -200,7 +200,7 @@ public class GUI extends JFrame {
 
         // Next Brick
         nextBrickPanel = new JPanel();
-        nextBrickPanel.setBackground(Color.BLUE);  // Set background color for game area
+        nextBrickPanel.setBackground(Color.BLUE);
         nextBrickPanel.setPreferredSize(new Dimension(100, 100));
         thirdColumnPanel.add(nextBrickPanel);
 
@@ -241,7 +241,7 @@ public class GUI extends JFrame {
                     Main.thread.stop();
                 } else {
                     Main.bGameOn = true;
-                    Main.thread = new GameThread(Main.gameArea); // Create a new thread
+                    Main.thread = new GameThread(Main.gameArea);
                     Main.thread.start();
                 }
 
@@ -257,7 +257,7 @@ public class GUI extends JFrame {
         URL imgURL = getClass().getResource(path);
         if (imgURL != null) {
             ImageIcon icon = new ImageIcon(imgURL);
-            Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);  // Explicitly set logo size
+            Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
             return new ImageIcon(image);
         } else {
             System.err.println("Couldn't find file: " + path);
@@ -273,7 +273,7 @@ public class GUI extends JFrame {
     private void updateTexts() {
         musicButton.setText(bundle.getString("musicButton"));
         startStopButton.setText(bundle.getString("startStopButton"));
-        // Update other texts as needed
+
         frame.repaint();
     }
 

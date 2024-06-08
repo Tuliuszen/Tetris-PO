@@ -243,6 +243,9 @@ public class GameArea extends JPanel {
 
     public void addToFallenOnes()
     {
+        if (bIsOutOfBounds())
+            return;
+
         int[][] shape = this.getBlock().getBlockShape();
         Color color = this.getBlock().getColor();
 

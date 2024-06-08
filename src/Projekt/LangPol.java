@@ -8,7 +8,7 @@ public class LangPol extends ResourceBundle {
     static {
         contents.put("musicButton", "Muzyka Włącz/Wyłącz");
         contents.put("startStopButton", "Start/Stop");
-        // Add other keys and translations as needed
+
     }
 
     @Override

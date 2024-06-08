@@ -4,9 +4,16 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class Main extends JFrame{
 
     GUI gui;
+
+    static Connection conn;
     static GameArea gameArea;
 
     static GameThread thread;
@@ -70,6 +77,8 @@ public class Main extends JFrame{
         gui.levelTextField.setText(String.valueOf("Level: " +Main.getLevel()));
         gui.lineTextField.setText(String.valueOf("Lines: " +Main.getLines()));
 
+
+
         //audio = new AudioManager();
 
         //audio.finder();
@@ -87,6 +96,46 @@ public class Main extends JFrame{
         Controls();
 
         GameStart();
+
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            conn = DriverManager.getConnection(
+                    "jdbc:sqlserver://labyjava.database.windows.net:1433;database=laboratoria;user=adminJava@labyjava;password=ABcd12#$;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+            );
+            System.out.println("Connection established successfully.");
+            conn.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("JDBC Driver not found.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Connection failed: " + e.getMessage());
+        }
+    }
+
+    public static void GameOver()
+    {
+        bGameOn = false;
+
+        String admin = "adminJava";
+        String pass = "ABcd12#$";
+
+        String name = JOptionPane.showInputDialog("Name/Imie:");
+        int score = Main.score;
+
+        try  {
+            String sql = "INSERT INTO Scores (name, score) VALUES (?, ?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, name);
+                pstmt.setInt(2, score);
+                pstmt.executeUpdate();
+
+                System.out.println("Data inserted successfully.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void Controls() {

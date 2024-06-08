@@ -19,7 +19,6 @@ public class GameThread extends Thread
     {
         while(Main.bGameOn) //GAME LOOP
         {
-            System.out.println("test");
             gameArea.spawner();
             while(getGameArea().force())
             {
@@ -32,6 +31,13 @@ public class GameThread extends Thread
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+            }
+
+            if (gameArea.bIsOutOfBounds())
+            {
+                //System.out.println("END");
+                Main.GameOver();
+                break;
             }
         }
     }

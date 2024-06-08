@@ -8,7 +8,7 @@ public class LangEng extends ResourceBundle {
     static {
         contents.put("musicButton", "Music On/Off");
         contents.put("startStopButton", "Start/Stop");
-        // Add other keys and translations as needed
+
     }
 
     @Override
