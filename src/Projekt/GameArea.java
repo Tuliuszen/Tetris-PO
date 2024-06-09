@@ -373,6 +373,17 @@ public class GameArea extends JPanel {
 
     }
 
+    public void removeFallenOnes()
+    {
+        for(int row = 0; row < this.getRows(); row++)
+        {
+            for(int c = 0; c < this.getCols(); c++)
+            {
+                fallenBlocks[row][c] = null;
+            }
+        }
+    }
+
 
     @Override
     protected void paintComponent(Graphics g)

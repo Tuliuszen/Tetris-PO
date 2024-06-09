@@ -135,10 +135,19 @@ public class Main extends JFrame{
 
                 System.out.println("Data inserted successfully.");
                 gui.populateTableModel();
+                clearAndRestart();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void clearAndRestart()
+    {
+        gameArea.removeFallenOnes();
+        Main.score = 0;
+        Main.level = 1;
+        Main.lines = 0;
     }
 
     public void Controls() {
