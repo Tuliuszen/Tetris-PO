@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class Main extends JFrame{
 
-    GUI gui;
+    static GUI gui;
 
     static Connection conn;
     static GameArea gameArea;
@@ -63,13 +63,29 @@ public class Main extends JFrame{
     }
 
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) throws InterruptedException {
          new Main();
     }
 
-    public Main()
-    {
+    public Main() throws InterruptedException {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            conn = DriverManager.getConnection(
+                    "jdbc:sqlserver://labyjava.database.windows.net:1433;database=laboratoria;user=adminJava@labyjava;password=ABcd12#$;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+            );
+            System.out.println("Connection established successfully.");
+            //conn.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("JDBC Driver not found.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Connection failed: " + e.getMessage());
+        }
+
+        Thread.sleep(2000);
+
+
         gui = new GUI();
         gameArea = gui.getGamePanel();
 
@@ -98,20 +114,6 @@ public class Main extends JFrame{
         GameStart();
 
 
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://labyjava.database.windows.net:1433;database=laboratoria;user=adminJava@labyjava;password=ABcd12#$;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
-            );
-            System.out.println("Connection established successfully.");
-            conn.close();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("JDBC Driver not found.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Connection failed: " + e.getMessage());
-        }
     }
 
     public static void GameOver()
@@ -132,6 +134,7 @@ public class Main extends JFrame{
                 pstmt.executeUpdate();
 
                 System.out.println("Data inserted successfully.");
+                gui.populateTableModel();
             }
         } catch (SQLException e) {
             e.printStackTrace();

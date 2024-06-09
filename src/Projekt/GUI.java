@@ -1,10 +1,12 @@
 package Projekt;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class GUI extends JFrame {
@@ -18,6 +20,10 @@ public class GUI extends JFrame {
     private JButton startStopButton;
     private ImageIcon logoIcon;
     private ResourceBundle bundle;
+    private DefaultTableModel tableModel;
+
+    public String[][] tableData = {};
+    public String[] columnNames = {};
 
     public ResourceBundle getBundle() {
         return bundle;
@@ -179,10 +185,12 @@ public class GUI extends JFrame {
         }
 
         // Data from Table (Row 2)
-        String[][] tableData = {{"1201"}, {"103"}};
-        String[] columnNames = {"Ranking"};
-        table = new JTable(tableData, columnNames);
+        //dodac uzupelnianie tej tabeli na biezaco
+        tableModel = new DefaultTableModel(new Object[]{"Score"}, 0);
+        //populateTableModel(tableModel);
+        table = new JTable(tableModel);
         firstColumnPanel.add(new JScrollPane(table));
+        populateTableModel();
 
         // Second Column
         secondColumnPanel = new JPanel();
@@ -275,6 +283,27 @@ public class GUI extends JFrame {
         startStopButton.setText(bundle.getString("startStopButton"));
 
         frame.repaint();
+    }
+
+    public void populateTableModel() {
+        try {
+            String sql = "SELECT score FROM Scores order by score desc";
+            try (PreparedStatement pstmt = Main.conn.prepareStatement(sql)) {
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    // Clear existing rows
+                    tableModel.setRowCount(0);
+
+                    // Iterate over the result set and add each score to the model
+                    while (rs.next()) {
+                        int score = rs.getInt("score");
+                        tableModel.addRow(new Object[]{score});
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Failed to fetch scores from database.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public static void main(String[] args) {
