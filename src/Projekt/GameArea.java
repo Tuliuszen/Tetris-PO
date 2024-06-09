@@ -74,7 +74,7 @@ public class GameArea extends JPanel {
         //fallenBlocks[0][9] = Color.GREEN;
         //spawner();
 
-        bricks = new Brick[]{new LBlock(), new JBlock(), new ZBlock(), new SBlock(), new TBlock(), new OBlock(), new IBlock()};
+        bricks = new Brick[]{new LBlock(), new JBlock(), new ZBlock(), new SBlock(), new TBlock(), new OBlock()};
     }
     public void spawner()
     {

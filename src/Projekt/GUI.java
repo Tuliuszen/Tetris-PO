@@ -12,7 +12,9 @@ import java.util.ResourceBundle;
 public class GUI extends JFrame {
 
     private JFrame frame;
-    private JPanel mainPanel, firstColumnPanel, secondColumnPanel, thirdColumnPanel, nextBrickPanel;
+    private JPanel mainPanel, firstColumnPanel, secondColumnPanel, thirdColumnPanel;
+
+    private BrickArea nextBrickPanel;
     private GameArea gamePanel;
     private JTable table;
     static JTextField pointsTextField, lineTextField, levelTextField;
@@ -53,7 +55,7 @@ public class GUI extends JFrame {
         this.thirdColumnPanel = thirdColumnPanel;
     }
 
-    public void setNextBrickPanel(JPanel nextBrickPanel) {
+    public void setNextBrickPanel(BrickArea nextBrickPanel) {
         this.nextBrickPanel = nextBrickPanel;
     }
 
@@ -207,8 +209,8 @@ public class GUI extends JFrame {
         mainPanel.add(thirdColumnPanel);
 
         // Next Brick
-        nextBrickPanel = new JPanel();
-        nextBrickPanel.setBackground(Color.BLUE);
+        nextBrickPanel = new BrickArea(5);
+        //nextBrickPanel.setBackground(Color.BLUE);
         nextBrickPanel.setPreferredSize(new Dimension(100, 100));
         thirdColumnPanel.add(nextBrickPanel);
 
