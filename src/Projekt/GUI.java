@@ -99,7 +99,7 @@ public class GUI extends JFrame {
         return thirdColumnPanel;
     }
 
-    public JPanel getNextBrickPanel() {
+    public BrickArea getNextBrickPanel() {
         return nextBrickPanel;
     }
 
@@ -208,10 +208,9 @@ public class GUI extends JFrame {
         thirdColumnPanel = new JPanel(new GridLayout(6, 1, 0, 10));
         mainPanel.add(thirdColumnPanel);
 
-        // Next Brick
+// Next Brick Area
         nextBrickPanel = new BrickArea(5);
-        //nextBrickPanel.setBackground(Color.BLUE);
-        nextBrickPanel.setPreferredSize(new Dimension(100, 100));
+        nextBrickPanel.setPreferredSize(new Dimension(100, 100)); // Ensure this size is sufficient for the brick display
         thirdColumnPanel.add(nextBrickPanel);
 
         // Text Fields

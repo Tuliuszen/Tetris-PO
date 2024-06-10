@@ -10,7 +10,7 @@ public class GameArea extends JPanel {
 
     private int rows, cols;
     private int cellSize;
-    private Brick block;
+    private Brick block, nxtBlock;
 
     private Color[][] fallenBlocks; //Basically its a background for fallen blocks that are seen in game area
 
@@ -75,14 +75,28 @@ public class GameArea extends JPanel {
         //spawner();
 
         bricks = new Brick[]{new LBlock(), new JBlock(), new ZBlock(), new SBlock(), new TBlock(), new OBlock()};
+        Random random = new Random();
+        nxtBlock = bricks[random.nextInt(bricks.length)];
     }
-    public void spawner()
-    {
+    public void spawner() {
         Random random = new Random();
 
-        this.block = bricks[random.nextInt(bricks.length)];
-        block.spwanBlock(cols);
+        // Assign the next block to the current block
+        this.block = this.nxtBlock;
+        System.out.println(this.block);
+
+        // Generate a new next block
+        this.nxtBlock = bricks[random.nextInt(bricks.length)];
+        System.out.println("nxt = " + this.nxtBlock);
+        System.out.println("x = " + this.nxtBlock.getX() + "y = " + this.nxtBlock.getY());
+        // Set the block in the BrickArea for the next block display
+        Main.brickArea.setBlock(this.nxtBlock, 10, 5);
+
+        // Initialize the position of the current block
+        this.block.spwanBlock(cols);
     }
+
+
 
     public boolean bIsOutOfBounds()
     {

@@ -1,5 +1,7 @@
 package Projekt;
 
+import Blocks.*;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -8,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Random;
 
 public class Main extends JFrame{
 
@@ -16,12 +19,18 @@ public class Main extends JFrame{
     static Connection conn;
     static GameArea gameArea;
 
+    static BrickArea brickArea;
+
     static GameThread thread;
 
     static AudioManager audio;
 
     static int score, level, lines;
     static boolean bMusic, bGameOn;
+
+    static Brick[] bricks;
+
+    static Brick nxtBlock;
 
     public static int getLines() {
         return lines;
@@ -88,6 +97,11 @@ public class Main extends JFrame{
 
         gui = new GUI();
         gameArea = gui.getGamePanel();
+        brickArea = gui.getNextBrickPanel();
+
+        bricks = new Brick[]{new LBlock(), new JBlock(), new ZBlock(), new SBlock(), new TBlock(), new OBlock()};
+        Random random = new Random();
+        nxtBlock = bricks[random.nextInt(bricks.length)];
 
         gui.pointsTextField.setText(String.valueOf("Score: " + Main.getScore()));
         gui.levelTextField.setText(String.valueOf("Level: " +Main.getLevel()));
@@ -115,6 +129,19 @@ public class Main extends JFrame{
 
 
     }
+
+    /*public static void spawner()
+    {
+        Random random = new Random();
+
+        gameArea.setBlock(Main.nxtBlock);
+
+        nxtBlock = bricks[random.nextInt(bricks.length)];
+        //brickArea.setBlock(Main.nxtBlock);
+
+        //this.block = bricks[random.nextInt(bricks.length)];
+        gameArea.getBlock().spwanBlock(gameArea.getCols());
+    }*/
 
     public static void GameOver()
     {
