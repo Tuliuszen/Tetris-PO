@@ -89,6 +89,7 @@ public class Main extends JFrame {
         bricks = new Brick[]{new LBlock(), new JBlock(), new ZBlock(), new SBlock(), new TBlock(), new OBlock()};
         Random random = new Random();
         nxtBlock = bricks[random.nextInt(bricks.length)];
+        gameArea.setNxtBlock(nxtBlock);
 
         gui.pointsTextField.setText(String.valueOf("Score: " + Main.getScore()));
         gui.levelTextField.setText(String.valueOf("Level: " + Main.getLevel()));

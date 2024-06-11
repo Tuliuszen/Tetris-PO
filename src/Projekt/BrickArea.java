@@ -22,8 +22,8 @@ public class BrickArea extends JPanel {
 
     public void setBlock(Brick block, int x, int y) {
         this.block = block;
-        block.setX(2);
-        block.setY(2);
+        this.block.setX(12);
+        this.block.setY(4);
         // Ensure block is centered within the BrickArea
 
         System.out.println("x = " + this.block.getX() + "y = " + this.block.getY());
