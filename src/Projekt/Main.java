@@ -12,24 +12,17 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Random;
 
-public class Main extends JFrame{
+public class Main extends JFrame {
 
     static GUI gui;
-
     static Connection conn;
     static GameArea gameArea;
-
     static BrickArea brickArea;
-
     static GameThread thread;
-
     static AudioManager audio;
-
     static int score, level, lines;
     static boolean bMusic, bGameOn;
-
     static Brick[] bricks;
-
     static Brick nxtBlock;
 
     public static int getLines() {
@@ -48,8 +41,7 @@ public class Main extends JFrame{
         Main.level = level;
     }
 
-    public static void addLevel(int added)
-    {
+    public static void addLevel(int added) {
         Main.level += added;
     }
 
@@ -61,19 +53,16 @@ public class Main extends JFrame{
         Main.score = score;
     }
 
-    public static void addScore(int added)
-    {
+    public static void addScore(int added) {
         Main.score += added;
     }
 
-    public static void addLines(int added)
-    {
+    public static void addLines(int added) {
         Main.lines += added;
     }
 
-
     public static void main(String[] args) throws InterruptedException {
-         new Main();
+        new Main();
     }
 
     public Main() throws InterruptedException {
@@ -83,7 +72,6 @@ public class Main extends JFrame{
                     "jdbc:sqlserver://labyjava.database.windows.net:1433;database=laboratoria;user=adminJava@labyjava;password=ABcd12#$;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
             );
             System.out.println("Connection established successfully.");
-            //conn.close();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println("JDBC Driver not found.");
@@ -94,7 +82,6 @@ public class Main extends JFrame{
 
         Thread.sleep(2000);
 
-
         gui = new GUI();
         gameArea = gui.getGamePanel();
         brickArea = gui.getNextBrickPanel();
@@ -104,16 +91,11 @@ public class Main extends JFrame{
         nxtBlock = bricks[random.nextInt(bricks.length)];
 
         gui.pointsTextField.setText(String.valueOf("Score: " + Main.getScore()));
-        gui.levelTextField.setText(String.valueOf("Level: " +Main.getLevel()));
-        gui.lineTextField.setText(String.valueOf("Lines: " +Main.getLines()));
+        gui.levelTextField.setText(String.valueOf("Level: " + Main.getLevel()));
+        gui.lineTextField.setText(String.valueOf("Lines: " + Main.getLines()));
 
+        audio = new AudioManager();
 
-
-        //audio = new AudioManager();
-
-        //audio.finder();
-
-        //audio.playBgMusic();
         bMusic = true;
         bGameOn = true;
 
@@ -121,39 +103,26 @@ public class Main extends JFrame{
         Main.level = 1;
         Main.lines = 0;
 
-        //System.out.print(Main.score);
-
         Controls();
 
         GameStart();
 
-
+        if (bGameOn) {
+            audio.playBgMusic();
+        }
     }
 
-    /*public static void spawner()
-    {
-        Random random = new Random();
-
-        gameArea.setBlock(Main.nxtBlock);
-
-        nxtBlock = bricks[random.nextInt(bricks.length)];
-        //brickArea.setBlock(Main.nxtBlock);
-
-        //this.block = bricks[random.nextInt(bricks.length)];
-        gameArea.getBlock().spwanBlock(gameArea.getCols());
-    }*/
-
-    public static void GameOver()
-    {
+    public static void GameOver() {
         bGameOn = false;
 
-        String admin = "adminJava";
-        String pass = "ABcd12#$";
+        if (bMusic) {
+            audio.stopBgMusic();
+        }
 
         String name = JOptionPane.showInputDialog("Name/Imie:");
         int score = Main.score;
 
-        try  {
+        try {
             String sql = "INSERT INTO Scores (name, score) VALUES (?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, name);
@@ -169,12 +138,15 @@ public class Main extends JFrame{
         }
     }
 
-    public static void clearAndRestart()
-    {
+    public static void clearAndRestart() {
         gameArea.removeFallenOnes();
         Main.score = 0;
         Main.level = 1;
         Main.lines = 0;
+
+        if (bMusic) {
+            audio.playBgMusic();
+        }
     }
 
     public void Controls() {
@@ -215,10 +187,7 @@ public class Main extends JFrame{
         });
     }
 
-
-
-    public void GameStart()
-    {
+    public void GameStart() {
         thread = new GameThread(gameArea);
         thread.start();
     }
